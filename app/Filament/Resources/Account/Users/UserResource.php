@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\Users;
+namespace App\Filament\Resources\Account\Users;
 
 use UnitEnum;
 use BackedEnum;
@@ -26,7 +26,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use App\Filament\Widgets\UserStatsOverview;
 use Filament\Forms\Components\DateTimePicker;
-use App\Filament\Resources\Users\Pages\ManageUsers;
+use App\Filament\Resources\Account\Users\Pages\ManageUsers;
 
 class UserResource extends Resource
 {

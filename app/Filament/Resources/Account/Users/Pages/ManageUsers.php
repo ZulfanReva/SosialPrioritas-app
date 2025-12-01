@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Filament\Resources\Users\Pages;
+namespace App\Filament\Resources\Account\Users\Pages;
 
 use App\Livewire\UserOverview;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ManageRecords;
-use App\Filament\Resources\Users\UserResource;
+use App\Filament\Resources\Account\Users\UserResource;
 
 class ManageUsers extends ManageRecords
 {
@@ -13,13 +13,14 @@ class ManageUsers extends ManageRecords
 
     public function getTitle(): string
     {
-        return 'Manajemen Users';
+        return 'Data Users';
     }
 
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make(),
+            CreateAction::make()
+                ->label('Tambah User'),
         ];
     }
 
