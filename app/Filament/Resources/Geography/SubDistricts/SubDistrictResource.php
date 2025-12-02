@@ -42,7 +42,7 @@ class SubDistrictResource extends Resource
     {
         return $schema
             ->components([
-                TextInput::make('SubDistrict')
+                TextInput::make('name')
                     ->label('Kelurahan/Desa')
                     ->required()
                     ->maxLength(255),
