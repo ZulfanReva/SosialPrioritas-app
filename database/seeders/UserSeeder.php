@@ -30,10 +30,50 @@ class UserSeeder extends Seeder
 
         // Create a regular officer user
         User::create([
-            'name' => 'Officer Sosial Prioritas',
-            'email' => 'officer@sosialprioritas.com',
+            'name' => 'Officer Banjarmasin Utara',
+            'email' => 'officer.utara@sosialprioritas.com',
             'phone' => '081234567891',
-            'district_id' => 1, // Ganti dengan ID district yang valid jika berbeda
+            'district_id' => 1,
+            'role' => 'officer',
+            'is_active' => true,
+            'password' => Hash::make('123'),
+        ]);
+
+        User::create([
+            'name' => 'Officer Banjarmasin Selatan',
+            'email' => 'officer.selatan@sosialprioritas.com',
+            'phone' => '081234567892',
+            'district_id' => 2,
+            'role' => 'officer',
+            'is_active' => true,
+            'password' => Hash::make('123'),
+        ]);
+
+        User::create([
+            'name' => 'Officer Banjarmasin Timur',
+            'email' => 'officer.timur@sosialprioritas.com',
+            'phone' => '081234567893',
+            'district_id' => 3,
+            'role' => 'officer',
+            'is_active' => true,
+            'password' => Hash::make('123'),
+        ]);
+
+        User::create([
+            'name' => 'Officer Banjarmasin Barat',
+            'email' => 'officer.barat@sosialprioritas.com',
+            'phone' => '081234567894',
+            'district_id' => 4,
+            'role' => 'officer',
+            'is_active' => true,
+            'password' => Hash::make('123'),
+        ]);
+
+        User::create([
+            'name' => 'Officer Banjarmasin Tengah',
+            'email' => 'officer.tengah@sosialprioritas.com',
+            'phone' => '081234567895',
+            'district_id' => 5,
             'role' => 'officer',
             'is_active' => true,
             'password' => Hash::make('123'),

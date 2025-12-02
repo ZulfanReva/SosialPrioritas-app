@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Service\Citizens\Tables;
 use Carbon\Carbon;
 use Filament\Tables\Table;
 use Filament\Actions\EditAction;
+use Illuminate\Support\Facades\Auth;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Tables\Columns\TextColumn;
@@ -17,6 +18,10 @@ class CitizensTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn($query) => $query->when(
+                Auth::user()?->role === 'officer',
+                fn($q) => $q->where('district_id', Auth::user()->district_id)
+            ))
             ->columns([
                 TextColumn::make('index')
                     ->rowIndex() // Nomor urut otomatis per halaman
@@ -35,7 +40,8 @@ class CitizensTable
                     ->label('Jenis Kelamin'),
                 TextColumn::make('address')
                     ->label('Alamat')
-                    ->limit(20),
+                    ->tooltip(fn($record) => $record->address) // hover = muncul full text
+                    ->limit(40),
                 TextColumn::make('province.name')
                     ->label('Provinsi')
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -56,14 +62,19 @@ class CitizensTable
                     ->label('Hubungan Keluarga'),
                 TextColumn::make('priorityBansos.label')
                     ->label('Prioritas Bansos')
+                    ->icon(fn(string $state): string => match ($state) {
+                        'Tinggi' => 'heroicon-m-arrow-up-circle',
+                        'Sedang' => 'heroicon-m-minus-circle',
+                        'Rendah' => 'heroicon-m-arrow-down-circle',
+                        default => 'heroicon-m-question-mark-circle',
+                    })
                     ->badge() // Mengaktifkan mode badge
                     ->color(fn(string $state): string => match ($state) {
                         'Tinggi' => 'success', // Hijau
                         'Sedang' => 'info', // Biru
                         'Rendah' => 'danger',  // Merah
                         default => 'secondary', // Warna default jika label tidak terdaftar
-                    })
-                    ->formatStateUsing(fn($state) => strtoupper($state)),
+                    }),
                 TextColumn::make('created_at')
                     ->label('Dibuat')
                     ->dateTime()
@@ -76,14 +87,14 @@ class CitizensTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
+                SelectFilter::make('district_id')
+                    ->label('Kecamatan')
+                    ->placeholder('Semua Kecamatan')
+                    ->relationship('district', 'name'),
                 SelectFilter::make('priority_bansos_id')
                     ->label('Prioritas Bansos')
                     ->placeholder('Semua Prioritas')
-                    ->options([
-                        1 => 'Tinggi',
-                        2 => 'Sedang',
-                        3 => 'Rendah',
-                    ]),
+                    ->relationship('priorityBansos', 'label'),
             ])
             ->recordActions([
                 EditAction::make(),
@@ -97,7 +108,7 @@ class CitizensTable
             ->headerActions([
                 FilamentExportHeaderAction::make('export')
                     ->fileName('Data Kependudukan - Sosial Prioritas') // Default file name
-                    ->defaultFormat('pdf')
+                    ->defaultFormat('xlsx') // xlsx, csv or pdf
                     ->disableAdditionalColumns(), // Label for file name input, // xlsx, csv or pdf
             ]);
     }

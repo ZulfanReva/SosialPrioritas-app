@@ -207,7 +207,7 @@ class UserResource extends Resource
                 SelectFilter::make('district_id')
                     ->label('Kecamatan')
                     ->placeholder('Semua Kecamatan')
-                    ->options(District::pluck('name', 'id')),
+                    ->relationship('district', 'name'),
                 TernaryFilter::make('is_active')
                     ->placeholder('Semua Status')
                     ->label('Status'),

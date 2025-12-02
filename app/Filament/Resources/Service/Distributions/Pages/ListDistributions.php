@@ -10,10 +10,16 @@ class ListDistributions extends ListRecords
 {
     protected static string $resource = DistributionResource::class;
 
+     public function getTitle(): string
+    {
+        return 'Data Distribusi Bantuan';
+    }
+
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make(),
+            CreateAction::make()
+            ->label('Tambah Distribusi Bantuan'),
         ];
     }
 }

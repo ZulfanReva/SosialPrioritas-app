@@ -2,13 +2,14 @@
 
 namespace App\Filament\Resources\Service\Distributions;
 
+use UnitEnum;
+use BackedEnum;
 use App\Filament\Resources\Service\Distributions\Pages\CreateDistribution;
 use App\Filament\Resources\Service\Distributions\Pages\EditDistribution;
 use App\Filament\Resources\Service\Distributions\Pages\ListDistributions;
 use App\Filament\Resources\Service\Distributions\Schemas\DistributionForm;
 use App\Filament\Resources\Service\Distributions\Tables\DistributionsTable;
-use App\Models\Service\Distribution;
-use BackedEnum;
+use App\Models\Distribution;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -18,9 +19,14 @@ class DistributionResource extends Resource
 {
     protected static ?string $model = Distribution::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|UnitEnum|null $navigationGroup = 'Pelayanan';
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedTruck;
 
-    protected static ?string $recordTitleAttribute = 'Distribution';
+    public static ?int $navigationSort = 13;
+    protected static ?string $slug = 'distributions';
+    protected static ?string $navigationLabel = 'Distribusi Bantuan';
+
+    protected static ?string $recordTitleAttribute = 'distribution';
 
     public static function form(Schema $schema): Schema
     {

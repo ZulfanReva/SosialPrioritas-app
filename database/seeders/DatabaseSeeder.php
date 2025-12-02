@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             ProgramBansosSeeder::class,
             CitizenSeeder::class,
             UserSeeder::class,
+            DistributionSeeder::class,
         ]);
     }
 }
