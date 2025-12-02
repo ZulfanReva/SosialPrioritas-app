@@ -40,8 +40,10 @@ class PeriodResource extends Resource
     {
         return $schema
             ->components([
-                TextInput::make('PeriodBansos')
+                TextInput::make('name')
+                    ->label('Nama Periode')
                     ->required()
+                    ->columnSpanFull()
                     ->maxLength(255),
             ]);
     }
@@ -51,7 +53,8 @@ class PeriodResource extends Resource
         return $table
             ->recordTitleAttribute('PeriodBansos')
             ->columns([
-                TextColumn::make('PeriodBansos')
+                TextColumn::make('name')
+                    ->label('Periode')
                     ->searchable(),
             ])
             ->filters([

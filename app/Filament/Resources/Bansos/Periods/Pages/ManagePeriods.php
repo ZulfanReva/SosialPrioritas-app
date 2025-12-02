@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Bansos\Periods\Pages;
 use App\Filament\Resources\Bansos\Periods\PeriodResource;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ManageRecords;
+use PhpParser\Node\Stmt\Label;
 
 class ManagePeriods extends ManageRecords
 {
@@ -18,7 +19,8 @@ class ManagePeriods extends ManageRecords
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make(),
+            CreateAction::make()
+            ->label('Tambah Periode'),
         ];
     }
 }

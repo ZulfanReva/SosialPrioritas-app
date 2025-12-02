@@ -17,6 +17,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use App\Filament\Resources\Bansos\Programs\Pages\ManagePrograms;
+use Filament\Forms\Components\Textarea;
 
 class ProgramResource extends Resource
 {
@@ -40,8 +41,16 @@ class ProgramResource extends Resource
     {
         return $schema
             ->components([
-                TextInput::make('ProgramBansos')
+                TextInput::make('name')
+                    ->label('Nama Program')
                     ->required()
+                    ->columnSpanFull()
+                    ->maxLength(255),
+                Textarea::make('description')
+                    ->label('Deskripsi Program')
+                    ->required()
+                    ->rows(5)
+                    ->columnSpanFull()
                     ->maxLength(255),
             ]);
     }
@@ -51,8 +60,13 @@ class ProgramResource extends Resource
         return $table
             ->recordTitleAttribute('ProgramBansos')
             ->columns([
-                TextColumn::make('ProgramBansos')
+                TextColumn::make('name')
+                    ->label('Program')
                     ->searchable(),
+                TextColumn::make('description')
+                    ->label('Deskripsi')
+                    ->limit(100)                  // tampilkan maksimal 50 karakter
+                    ->tooltip(fn($record) => $record->description) // hover = muncul full text
             ])
             ->filters([
                 //

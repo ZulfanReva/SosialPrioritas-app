@@ -40,7 +40,13 @@ class PriorityResource extends Resource
     {
         return $schema
             ->components([
-                TextInput::make('PriorityBansos')
+                TextInput::make('label')
+                    ->label('Kategori Prioritas')
+                    ->required()
+                    ->unique(ignoreRecord: true)
+                    ->maxLength(255),
+                TextInput::make('score_min')
+                    ->label('Skor Minimum')
                     ->required()
                     ->maxLength(255),
             ]);
@@ -51,7 +57,12 @@ class PriorityResource extends Resource
         return $table
             ->recordTitleAttribute('PriorityBansos')
             ->columns([
-                TextColumn::make('PriorityBansos')
+                TextColumn::make('label')
+                    ->label('Kategori Prioritas')
+                    ->searchable(),
+
+                TextColumn::make('score_min')
+                    ->label('Skor Minimum')
                     ->searchable(),
             ])
             ->filters([
