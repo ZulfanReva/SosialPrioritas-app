@@ -199,18 +199,18 @@ class UserResource extends Resource
             ])
             ->filters([
                 SelectFilter::make('role')
-                    ->placeholder('All Role')
+                    ->placeholder('Semua Role')
                     ->options([
                         'admin' => 'Admin',
                         'officer' => 'Officer',
                     ]),
                 SelectFilter::make('district_id')
                     ->label('Kecamatan')
-                    ->placeholder('All Districts')
+                    ->placeholder('Semua Kecamatan')
                     ->options(District::pluck('name', 'id')),
                 TernaryFilter::make('is_active')
-                    ->placeholder('All Status')
-                    ->label('Active'),
+                    ->placeholder('Semua Status')
+                    ->label('Status'),
             ])
             ->recordActions([
                 EditAction::make(),
