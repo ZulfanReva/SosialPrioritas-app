@@ -41,14 +41,16 @@ class RegencyResource extends Resource
     {
         return $schema
             ->components([
+                Select::make('province_id')
+                    ->relationship('province', 'name')
+                    ->label('Provinsi')
+                    ->searchable()
+                    ->preload()
+                    ->required(),
                 TextInput::make('name')
                     ->label('Kabupaten')
                     ->required()
                     ->maxLength(100),
-                Select::make('province_id')
-                    ->relationship('province', 'name')
-                    ->label('Provinsi')
-                    ->required(),
             ]);
     }
 

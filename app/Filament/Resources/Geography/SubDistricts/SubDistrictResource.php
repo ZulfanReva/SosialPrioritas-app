@@ -42,14 +42,53 @@ class SubDistrictResource extends Resource
     {
         return $schema
             ->components([
+                Select::make('province_id')
+                    ->label('Provinsi')
+                    ->relationship('district.regency.province', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->live()
+                    ->afterStateUpdated(function (callable $set) {
+                        $set('regency_id', null);
+                        $set('district_id', null);
+                    })
+                    ->required(),
+                Select::make('regency_id')
+                    ->label('Kabupaten')
+                    ->options(function (callable $get) {
+                        $provinceId = $get('province_id');
+                        if (!$provinceId) {
+                            return [];
+                        }
+                        return \App\Models\Regency::query()
+                            ->where('province_id', $provinceId)
+                            ->pluck('name', 'id');
+                    })
+                    ->searchable()
+                    ->preload()
+                    ->live()
+                    ->afterStateUpdated(fn (callable $set) => $set('district_id', null))
+                    ->required()
+                    ->disabled(fn (callable $get) => !$get('province_id')),
+                Select::make('district_id')
+                    ->label('Kecamatan')
+                    ->options(function (callable $get) {
+                        $regencyId = $get('regency_id');
+                        if (!$regencyId) {
+                            return [];
+                        }
+                        return \App\Models\District::query()
+                            ->where('regency_id', $regencyId)
+                            ->pluck('name', 'id');
+                    })
+                    ->searchable()
+                    ->preload()
+                    ->required()
+                    ->disabled(fn (callable $get) => !$get('regency_id')),
                 TextInput::make('name')
                     ->label('Kelurahan/Desa')
                     ->required()
                     ->maxLength(255),
-                Select::make('district_id')
-                    ->relationship('district', 'name')
-                    ->label('Kecamatan')
-                    ->required(),
             ]);
     }
 

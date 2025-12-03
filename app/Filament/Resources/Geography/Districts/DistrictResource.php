@@ -41,14 +41,33 @@ class DistrictResource extends Resource
     {
         return $schema
             ->components([
+                Select::make('province_id')
+                    ->label('Provinsi')
+                    ->relationship('regency.province', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->live()
+                    ->afterStateUpdated(fn (callable $set) => $set('regency_id', null))
+                    ->required(),
+                Select::make('regency_id')
+                    ->label('Kabupaten')
+                    ->options(function (callable $get) {
+                        $provinceId = $get('province_id');
+                        if (!$provinceId) {
+                            return [];
+                        }
+                        return \App\Models\Regency::query()
+                            ->where('province_id', $provinceId)
+                            ->pluck('name', 'id');
+                    })
+                    ->searchable()
+                    ->preload()
+                    ->required()
+                    ->disabled(fn (callable $get) => !$get('province_id')),
                 TextInput::make('name')
                     ->label('Kecamatan')
                     ->required()
                     ->maxLength(100),
-                Select::make('regency_id')
-                    ->relationship('regency', 'name')
-                    ->label('Kabupaten')
-                    ->required(),
             ]);
     }
 
