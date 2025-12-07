@@ -11,6 +11,7 @@ use Filament\Tables\Table;
 use App\Models\Distribution;
 use App\Models\District;
 use Filament\Actions\Action;
+use Illuminate\Support\Facades\Auth;
 use Filament\Widgets\TableWidget as BaseWidget;
 
 class LatestDistributions extends BaseWidget
@@ -18,6 +19,12 @@ class LatestDistributions extends BaseWidget
     protected static ?int $sort = 3;
 
     protected int | string | array $columnSpan = 'full';
+
+    public static function canView(): bool
+    {
+        // Semua role bisa melihat widget ini
+        return true;
+    }
 
     public function table(Table $table): Table
     {
@@ -27,6 +34,10 @@ class LatestDistributions extends BaseWidget
             ->query(
                 Distribution::query()
                     ->with(['citizen.district', 'programBansos'])
+                    ->when(
+                        Auth::user()?->role === 'officer',
+                        fn($q) => $q->whereHas('citizen', fn($cq) => $cq->where('district_id', Auth::user()->district_id))
+                    )
                     ->latest()
                     ->limit(5)
             )

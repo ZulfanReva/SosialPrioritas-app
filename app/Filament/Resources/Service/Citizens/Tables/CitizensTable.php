@@ -101,15 +101,17 @@ class CitizensTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()->visible(fn() => Auth::user()?->role === 'admin'),
                     FilamentExportBulkAction::make('export'),
+                        // ->visible(fn() => Auth::user()?->role === 'admin'),
                 ]),
             ])
             ->headerActions([
                 FilamentExportHeaderAction::make('export')
                     ->fileName('Data Kependudukan - Sosial Prioritas') // Default file name
                     ->defaultFormat('xlsx') // xlsx, csv or pdf
-                    ->disableAdditionalColumns(), // Label for file name input, // xlsx, csv or pdf
+                    ->disableAdditionalColumns(),
+                    // ->visible(fn() => Auth::user()?->role === 'admin'),
             ]);
     }
 }

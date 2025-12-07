@@ -4,6 +4,7 @@ namespace App\Filament\Widgets;
 
 use App\Models\Citizen;
 use App\Models\District;
+use Illuminate\Support\Facades\Auth;
 use Filament\Widgets\ChartWidget;
 
 class CitizenPerDistrictChart extends ChartWidget
@@ -13,6 +14,12 @@ class CitizenPerDistrictChart extends ChartWidget
     protected static ?int $sort = 2;
 
     protected int | string | array $columnSpan = 'half';
+
+    public static function canView(): bool
+    {
+        // Hanya admin yang bisa melihat widget ini
+        return Auth::user()?->role === 'admin';
+    }
 
     protected function getData(): array
     {

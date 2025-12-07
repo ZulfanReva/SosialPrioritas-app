@@ -3,18 +3,31 @@
 namespace App\Filament\Widgets;
 
 use App\Models\Citizen;
+use Illuminate\Support\Facades\Auth;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
 class CitizenStatsOverview extends BaseWidget
 {
+    public static function canView(): bool
+    {
+        // Semua role bisa melihat widget ini
+        return true;
+    }
+
     protected function getStats(): array
     {
         // Count citizens by priority_bansos_id
         // 1 = Tinggi (High), 2 = Sedang (Medium), 3 = Rendah (Low)
-        $highPriority = Citizen::where('priority_bansos_id', 1)->count();
-        $mediumPriority = Citizen::where('priority_bansos_id', 2)->count();
-        $lowPriority = Citizen::where('priority_bansos_id', 3)->count();
+        // Filter by district if user is officer
+        $query = Citizen::query()->when(
+            Auth::user()?->role === 'officer',
+            fn($q) => $q->where('district_id', Auth::user()->district_id)
+        );
+
+        $highPriority = (clone $query)->where('priority_bansos_id', 1)->count();
+        $mediumPriority = (clone $query)->where('priority_bansos_id', 2)->count();
+        $lowPriority = (clone $query)->where('priority_bansos_id', 3)->count();
 
         return [
             Stat::make('Prioritas Tinggi', $highPriority)

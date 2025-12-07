@@ -46,7 +46,6 @@ class DistributionsTable
                     ->disk('public')
                     ->imageHeight(40)
                     ->circular(),
-                // ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('status')
                     ->label('Status')
                     ->icon(fn(string $state): string => match ($state) {
@@ -118,14 +117,22 @@ class DistributionsTable
                 BulkActionGroup::make([
                     DeleteBulkAction::make()->visible(fn() => Auth::user()?->role === 'admin'),
                     FilamentExportBulkAction::make('export')
-                        ->disableAdditionalColumns(),
+                        ->disableAdditionalColumns()
+                        ->formatStates([
+                            'evidence' => fn($record) => $record->evidence ? basename($record->evidence) : '-',
+                        ]),
+                        // ->visible(fn() => Auth::user()?->role === 'admin'),
                 ]),
             ])
             ->headerActions([
                 FilamentExportHeaderAction::make('export')
                     ->fileName('Data Penyaluran Bansos - Sosial Prioritas')
                     ->defaultFormat('xlsx')
-                    ->disableAdditionalColumns(),
+                    ->disableAdditionalColumns()
+                    ->formatStates([
+                        'evidence' => fn($record) => $record->evidence ? basename($record->evidence) : '-',
+                    ]),
+                    // ->visible(fn() => Auth::user()?->role === 'admin'),
             ]);
     }
 }

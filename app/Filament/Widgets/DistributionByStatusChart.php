@@ -3,6 +3,7 @@
 namespace App\Filament\Widgets;
 
 use App\Models\Distribution;
+use Illuminate\Support\Facades\Auth;
 use Filament\Widgets\ChartWidget;
 
 class DistributionByStatusChart extends ChartWidget
@@ -12,6 +13,12 @@ class DistributionByStatusChart extends ChartWidget
     protected static ?int $sort = 2;
 
     protected int | string | array $columnSpan = 'half';
+
+    public static function canView(): bool
+    {
+        // Hanya admin yang bisa melihat widget ini
+        return Auth::user()?->role === 'admin';
+    }
 
     protected function getData(): array
     {
