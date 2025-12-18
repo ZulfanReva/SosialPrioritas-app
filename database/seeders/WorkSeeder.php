@@ -27,6 +27,8 @@ class WorkSeeder extends Seeder
             ['name' => 'Perdagangan', 'score_work' => 20],
             ['name' => 'Petani / Pekebun', 'score_work' => 20],
             ['name' => 'Sopir', 'score_work' => 20],
+            ['name' => 'Tukang Las/Pandai Besi', 'score_work' => 20],
+            ['name' => 'Tukang Jahit', 'score_work' => 20],
             ['name' => 'Tukang Kayu', 'score_work' => 20],
             ['name' => 'Tukang Batu', 'score_work' => 20],
             ['name' => 'Nelayan', 'score_work' => 20],

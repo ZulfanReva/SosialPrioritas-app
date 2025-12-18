@@ -18,6 +18,8 @@ class LatestDistributions extends BaseWidget
 {
     protected static ?int $sort = 3;
 
+    protected static ?string $heading = 'Distribusi Terbaru';
+
     protected int | string | array $columnSpan = 'full';
 
     public static function canView(): bool
