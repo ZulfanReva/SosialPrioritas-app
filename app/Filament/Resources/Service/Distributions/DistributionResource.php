@@ -4,16 +4,18 @@ namespace App\Filament\Resources\Service\Distributions;
 
 use UnitEnum;
 use BackedEnum;
-use App\Filament\Resources\Service\Distributions\Pages\CreateDistribution;
+use Filament\Tables\Table;
+use App\Models\Distribution;
+use Filament\Schemas\Schema;
+use Filament\Resources\Resource;
+use Filament\Support\Icons\Heroicon;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Support\Htmlable;
 use App\Filament\Resources\Service\Distributions\Pages\EditDistribution;
 use App\Filament\Resources\Service\Distributions\Pages\ListDistributions;
+use App\Filament\Resources\Service\Distributions\Pages\CreateDistribution;
 use App\Filament\Resources\Service\Distributions\Schemas\DistributionForm;
 use App\Filament\Resources\Service\Distributions\Tables\DistributionsTable;
-use App\Models\Distribution;
-use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Table;
 
 class DistributionResource extends Resource
 {

@@ -26,7 +26,7 @@ class CitizenResource extends Resource
     protected static ?string $slug = 'citizens';
     protected static ?string $navigationLabel = 'Kependudukan';
 
-    protected static ?string $recordTitleAttribute = 'relationship';
+    protected static ?string $recordTitleAttribute = 'name';
 
     public static function form(Schema $schema): Schema
     {
